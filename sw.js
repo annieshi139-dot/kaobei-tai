@@ -1,10 +1,13 @@
-const CACHE_NAME = 'exam-ws-v47';
-const CORE_ASSETS = ['./', './manifest.json', './icon-192.png', './icon-512.png', './icon-180.png'];
+const CACHE_NAME = 'exam-ws-v48';
+const CORE_ASSETS = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-180.png'];
 
 self.addEventListener('install', function(event){
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache){
-      return cache.addAll(CORE_ASSETS);
+      // 逐个缓存；单个资源缺失不阻断 SW 安装（避免 icon 缺失导致整页不可安装）
+      return Promise.all(CORE_ASSETS.map(function(u){
+        return cache.add(u).catch(function(){ /* 忽略单个失败 */ });
+      }));
     }).then(function(){
       return self.skipWaiting();
     })
