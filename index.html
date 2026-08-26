@@ -10,9 +10,6 @@
   document.addEventListener('gesturestart', stop, {passive:false});
   document.addEventListener('gesturechange', stop, {passive:false});
   document.addEventListener('gestureend', stop, {passive:false});
-  document.addEventListener('touchmove', function(e){
-    if(e.touches && e.touches.length > 1) e.preventDefault();
-  }, {passive:false});
   var lastEnd = 0;
   document.addEventListener('touchend', function(e){
     var now = (new Date()).getTime();
@@ -431,9 +428,9 @@
 
   /* ===== 响应式：手机/平板改为 App 形态（顶部栏 + 全高抽屉侧边栏） ===== */
   @media (max-width:1024px){
-    html,body{overscroll-behavior:none;position:relative;overflow-x:hidden;touch-action:pan-y}
-    body{padding:0 0 calc(28px + env(safe-area-inset-bottom));font-size:26px;line-height:1.72}
-    .shell{display:block;max-width:none}
+    html,body{height:100%;overflow:hidden;overscroll-behavior:none;position:relative}
+    body{padding:0;font-size:26px;line-height:1.72;-webkit-text-size-adjust:100%}
+    .shell{display:block;max-width:none;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:env(safe-area-inset-top) 0 calc(28px + env(safe-area-inset-bottom))}
 
     /* 顶部 App 栏：汉堡 + 标题 + 操作 */
     header.top{position:sticky;top:0;z-index:40;margin:0;padding:12px 14px;background:var(--paper);
