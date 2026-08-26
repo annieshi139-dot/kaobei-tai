@@ -8262,8 +8262,12 @@
     try{ last = localStorage.getItem(INSTALL_KEY); }catch(e){}
     if (last === 'installed'){ if(fab) fab.style.display='none'; return; }
     if (last && (Date.now() - Number(last)) < 3*24*3600*1000){ return; }
-    render(false);
-    setTimeout(openSheet, 1200);
+    // 先等 beforeinstallprompt 可能触发（可安装时会带上"一键安装"按钮），避免被手动步骤覆盖
+    setTimeout(function(){
+      if (isStandalone || (fab && fab.style.display === 'none')) return;
+      render(!!deferredPrompt);
+      if (!deferredPrompt) openSheet(); // 不可安装时才自动弹出手动步骤；可安装时由处理器弹出带按钮的面板
+    }, 2500);
   }
 
   if (fab) fab.addEventListener('click', function(){ render(!!deferredPrompt); openSheet(); });
