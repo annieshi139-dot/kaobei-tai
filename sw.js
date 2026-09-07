@@ -1,4 +1,4 @@
-const CACHE_NAME = 'exam-ws-v48';
+const CACHE_NAME = 'exam-ws-v49';
 const CORE_ASSETS = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-180.png'];
 
 self.addEventListener('install', function(event){
