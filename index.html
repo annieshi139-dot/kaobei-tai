@@ -753,6 +753,15 @@
   .task-toggle:hover{background:var(--paper-deep)}
   .task-toggle:active{transform:scale(.97)}
   .task-toggle .chev{font-size:11px;opacity:.8}
+  /* 展开后的「收起」吸底常驻：下滑时贴视口底部，外观同「展开剩余xx项」 */
+  .task-toggle-wrap.sticky-foot{
+    position:sticky;bottom:14px;z-index:7;margin-top:4px;
+    background:linear-gradient(to top,var(--paper) 58%,rgba(255,255,255,0));
+    padding:22px 0 8px;
+  }
+  .task-toggle-wrap.sticky-foot .task-toggle{
+    box-shadow:0 4px 14px rgba(63,134,189,.18);
+  }
 </style>
 </head>
 <body>
@@ -5881,6 +5890,7 @@
       if (wbState.expanded){
         tgl.innerHTML = '<span>收起</span><span class="chev">▴</span>';
         tgl.classList.add('expanded');
+        wrap.classList.add('sticky-foot');
       } else {
         tgl.innerHTML = '<span>展开剩余 ' + remaining + ' 项</span><span class="chev">▾</span>';
       }
@@ -6863,6 +6873,7 @@
           if (expanded){
             tgl.innerHTML = '<span>收起</span><span class="chev">▴</span>';
             tgl.classList.add('expanded');
+            wrap.classList.add('sticky-foot');
           } else {
             tgl.innerHTML = '<span>展开剩余 ' + remaining + ' 项</span><span class="chev">▾</span>';
           }
@@ -8241,9 +8252,9 @@
       noteEl.textContent = 'iOS 暂不支持一键安装，按上面三步手动添加即可。';
     } else {
       var and = [
-        '点浏览器右上角 ⋮ 菜单，选择「安装应用」或「添加到主屏幕」。',
-        '在确认框中点「安装」，桌面即生成全屏图标。',
-        '若菜单里没有「安装应用」：用电脑版 Chrome 打开本链接，地址栏右侧会出现安装图标，点它安装（同账号可同步到手机）。'
+        '先看地址栏右侧：若出现「安装」图标（⬇ 或 ⊕ 形状），直接点它即可一键安装。',
+        '或点右上角 ⋮ 菜单，选「安装应用 / 安装备考台」（若显示则为本站可装成 APP）。',
+        '若菜单里只有「添加到主屏幕」且装出来是网页快捷方式：先彻底关掉本页、清掉旧图标，再按上方「装到手机」按钮重装。'
       ];
       and.forEach(function(t,i){ var li=document.createElement('li'); li.innerHTML='<span class="is-num">'+(i+1)+'</span><div>'+t+'</div>'; stepsEl.appendChild(li); });
       var ok2 = document.createElement('button');
